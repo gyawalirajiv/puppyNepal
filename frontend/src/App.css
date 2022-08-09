@@ -1,0 +1,24 @@
+#search {
+  border: 1px solid #007db4;
+  height: 40px;
+  font-size: 1em;
+  border-radius: 5px;
+}
+::placeholder {
+  color: #007db4;
+  opacity: 1;
+}
+#search-submit{
+  position: absolute;
+  right: 1rem;
+  top: 0.5rem;
+  background-image: url(https://www.petsmart.com/on/demandware.static/Sites-PetSmart-Site/-/default/v1658318169868/images/magnifying-glass-icon.png);
+  background-color: transparent;
+  border: none;
+  background-repeat: no-repeat;
+  width: 25px;
+  height: 25px;
+}
+#search-submit:hover{
+  cursor: pointer;
+}
