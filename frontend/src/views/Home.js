@@ -4,8 +4,9 @@ import Category from "../components/Category";
 import axiosclient from "../util/axiosClient";
 import Header from "../components/Header"
 import Footer from "../components/Footer"
+import Card from "components/Card";
 
-let initialstate = [
+let initialStateCategory = [
   { title: 'Dog', imgURL: 'WEB-1178113-Jan22_DEAL1_Dog.jpg' },
   { title: 'Cat', imgURL: 'WEB-1178113-Jan22_DEAL2_Cat.jpg' },
   { title: 'Fish', imgURL: 'WEB-1178113-Jan22_DEAL3_Fish.jpg' },
@@ -13,10 +14,17 @@ let initialstate = [
   { title: 'Reptile', imgURL: 'WEB-1178113-Jan22_DEAL5_Reptile.jpg' },
   { title: 'Small Pet', imgURL: 'WEB-1178113-Jan22_DEAL6_SmPet.jpg' }
 ]
+let initialStateCard = [
+  { title: 'Dog toys under $10', imgURL: 'WEB-1407965-July22_HP-CAT_DogToys_DT.jpg' },
+  { title: 'Dog toys under $5', imgURL: 'WEB-1407965-July22_HP-CAT_DogTreats_DT.jpg' },
+  { title: 'Wet cat food under $1.50', imgURL: 'WEB-1407965-July22_HP-CAT_CatFood_DT.jpg' },
+  { title: 'Aquatic decor under $10', imgURL: 'WEB-1407965-July22_HP-CAT_AquaticDecor_DT.jpg' },
+]
 
 function Home() {
   const [userData, setUserData] = useState([]);
-  const [categoryList, setCategory] = useState(initialstate);
+  const [categoryList, setCategory] = useState(initialStateCategory);
+  const [cardList, setCardList] = useState(initialStateCard);
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
@@ -28,8 +36,13 @@ function Home() {
     setUserData(response.data);
   };
 
-  function _onCategoryClicked(){
+  function _onCategoryClicked(item){
     alert('Category click')
+    console.log('Category click', item )
+  };
+  function _onCardClicked(item){
+    alert('card click')
+    console.log('Card click', item )
   };
 
   return (
@@ -48,22 +61,17 @@ function Home() {
           </div>
         </div>
         <div className="bottom-offers" style={{display: 'flex', gap: '20px', marginTop: '10px'}}>
-          <div style={{display: 'flex', flexDirection: 'column', alignTtems: 'center', gap: '10px'}}>
-            <img src={ require('../assets/images/WEB-1407965-July22_HP-CAT_DogToys_DT.jpg')} style={{width: '100%' }} alt=""/>
-              <span>Dog toys under $10</span>
-          </div>
-          <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '10px'}}>
-            <img src={ require('../assets/images/WEB-1407965-July22_HP-CAT_DogTreats_DT.jpg')} style={{width: '100%'}} alt="" />
-              <span>Dog toys under $5</span>
-          </div>
-          <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '10px'}}>
-            <img src={ require('../assets/images/WEB-1407965-July22_HP-CAT_CatFood_DT.jpg')} style={{width: '100%'}} alt="" />
-              <span>Wet cat food under $1.50</span>
-          </div>
-          <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '10px'}}>
-            <img src={ require('../assets/images/WEB-1407965-July22_HP-CAT_AquaticDecor_DT.jpg')} style={{width: '100%'}} alt="" />
-              <span>Aquatic decor under $10</span>
-          </div>
+          {
+            cardList ? (
+              cardList.map((e, i) => {
+                return <Card item={e} onCardClicked={_onCardClicked.bind(this)}  key={i}/> 
+              })
+            ) :
+            (
+              "Data Not Found"
+            )
+          }
+
         </div>
         <div className="pets">
           <h2>Shop by pet</h2>
@@ -72,7 +80,7 @@ function Home() {
             {
               categoryList ? (
                 categoryList.map((ele, id) => {
-                  return <Category item={ele} onItemClicked={() => this._onCategoryClicked()}  key={id}/> 
+                  return <Category item={ele} onCategoryClicked={_onCategoryClicked.bind(this)}  key={id}/> 
                 })
               )
               :

@@ -11,11 +11,11 @@ return (
             <div style={{display: 'flex', justifyContent: 'space-between'}}>
               <div>
                 <div>
-                  <label for="name">Full Name</label><br />
+                  <label htmlFor="name">Full Name</label><br />
                   <input type="text" name="Name" id="name" style={{border: 'none', borderRadius: '5px', padding: '5px'}} />
                 </div>
                 <div style={{marginTop: '10px'}}>
-                  <label for="name">Your Pets:</label><br />
+                  <label htmlFor="name">Your Pets:</label><br />
                   <input type="checkbox" name="Dog" /> Dog
                   <input type="checkbox" name="Cat" /> Cat
                   <input type="checkbox" name="Fish" /> Fish
@@ -23,12 +23,12 @@ return (
               </div>
               <div>
                 <div>
-                  <label for="name">Your Gender</label><br />
+                  <label htmlFor="name">Your Gender</label><br />
                   <input type="radio" name="gender" value="male" id="male" /> Male
                   <input type="radio" name="gender" value="female" id="female" /> Female
                 </div>
                 <div style={{marginTop: '10px'}}>
-                  <label for="name">Country:</label><br />
+                  <label htmlFor="name">Country:</label><br />
                   <select name="country" style={{borderRadius: '5px', padding: '5px', border: 'none'}}>
                     <option value="US">US</option>
                     <option value="Nepal">Nepal</option>
@@ -39,7 +39,7 @@ return (
               </div>
               <div>
                 <div>
-                  <label for="name">Comments</label><br />
+                  <label htmlFor="name">Comments</label><br />
                   <textarea name="comments" id="comments" cols="30" rows="5" style={{borderRadius: '5px', border: 'none'}}></textarea>
                 </div>
               </div>
