@@ -7,7 +7,7 @@ import {
   createProduct,
   deleteProduct, findAllProduct,
   findAndUpdateProduct,
-  findProduct,
+  findProduct, findProductByCategory,
 } from "../service/product.service";
 import {getCategoryHandler} from "./category.controller";
 import {findCategory} from "../service/category.service";
@@ -65,6 +65,21 @@ export async function getProductHandler(
 ) {
   const productId = req.params.productId;
   const product = await findProduct({ productId });
+
+  if (!product) {
+    return res.sendStatus(404);
+  }
+
+  return res.send(product);
+}
+
+export async function getAllProductByCategoryHandler(
+    req: Request<UpdateProductInput["params"]>,
+    res: Response
+) {
+  // @ts-ignore
+  const categoryId = req.params.categoryId;
+  const product = await findProductByCategory({ categoryId: categoryId });
 
   if (!product) {
     return res.sendStatus(404);
