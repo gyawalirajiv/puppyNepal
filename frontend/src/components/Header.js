@@ -23,7 +23,8 @@ function Header() {
       </div>
       <div className="search-nav" style={{display: 'flex', justifyContent: 'space-around', marginTop: '5px', alignItems: 'center'}}>
         <div>
-          <img src={ require('../assets/images/petsmart-logo.png')} />
+          <Link to="/"><img src={ require('../assets/images/petsmart-logo.png')} /></Link>
+          
         </div>
         <div style={{position: 'relative'}}>
           <input type="text" id="search" placeholder="search" />
@@ -33,7 +34,8 @@ function Header() {
           <img src={ require('../assets/images/loyalty-icon.png')} style={{width: '40px', objectFit: 'contain'}} />
           <div className="sign-in">
             <div style={{display: 'flex', alignItems: 'center', gap: '10px'}}>
-              <b>sign in</b><i className="fa fa-angle-down" style={{fontSize: '20px'}}></i></div>
+              <Link to="/login"><b>Sign In</b></Link>
+              </div>
             <span style={{fontSize: '13px'}}>Treats & Account</span>
           </div>
         </div>

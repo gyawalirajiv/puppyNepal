@@ -32,7 +32,7 @@ function Home() {
   }, []);
 
   const gettodosWithaxios = async () => {
-    const response = await axiosclient.get('/todos');
+    const response = await axiosclient.get('/category');
     setUserData(response.data);
   };
 

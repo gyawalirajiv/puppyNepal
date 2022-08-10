@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-const BASE_URL = "https://jsonplaceholder.typicode.com"
+const BASE_URL = "http://ec2-65-0-118-1.ap-south-1.compute.amazonaws.com:1337/api"
 
 const axiosclient = axios.create({
   baseURL: BASE_URL,
