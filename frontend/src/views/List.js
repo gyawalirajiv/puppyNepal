@@ -2,10 +2,12 @@ import React, { useState, useEffect } from "react";
 import { Routes, Route, Link } from "react-router-dom";
 import { useParams } from 'react-router';
 import axiosclient from "../util/axiosClient";
+import Header from "components/Header";
+import Footer from "components/Footer";
 
-function List(){
+function List() {
   const { id } = useParams();
-  const [todoData, setTodoData] = useState([]);
+  const [productData, setProductData] = useState([]);
   const [loading, setLoading] = useState(false);
 
 
@@ -14,25 +16,31 @@ function List(){
   }, []);
 
   const gettodosDataWithaxios = async () => {
-    const response = await axiosclient.get('/todos/'+id);
-    setTodoData(response.data);
+    const response = await axiosclient.get('/products/' + id + '/category');
+    setProductData(response.data);
   };
 
 
-  return(
-    <div>
+  return (
+    <>
+    <Header />
       {
-        todoData ? (
-          <div>
-          <p>ID: {todoData.id}</p>
-          <p>Title: { todoData.title} </p>
-          <p>UserId: { todoData.userId} </p>
-          </div>
+        productData ? (
+          productData.map((ele, idx) => {
+            return (
+              <div>
+                <p>ID: {ele.id}</p>
+                <p>Title: {ele.title} </p>
+                <p>UserId: {ele.userId} </p>
+              </div>
+            )
+          })
         ) : (
           "Data not Found"
         )
       }
-    </div>
+      <Footer />
+    </>
   )
 }
 

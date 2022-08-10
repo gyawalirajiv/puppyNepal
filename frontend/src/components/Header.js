@@ -1,8 +1,18 @@
 import React, { useState, useEffect } from "react";
 import { Routes, Route, Link } from "react-router-dom";
+import axiosclient from "util/axiosClient";
 
 
 function Header() {
+  const [categoryList, setCategory] = useState([]);
+  useEffect(() => {
+    gettodosWithaxios();
+  }, []);
+
+  const gettodosWithaxios = async () => {
+    const response = await axiosclient.get('/category');
+    setCategory(response.data);
+  };
 
   return (
     <>
@@ -23,7 +33,8 @@ function Header() {
       </div>
       <div className="search-nav" style={{display: 'flex', justifyContent: 'space-around', marginTop: '5px', alignItems: 'center'}}>
         <div>
-          <img src={ require('../assets/images/petsmart-logo.png')} />
+          <Link to="/"><img src={ require('../assets/images/petsmart-logo.png')} /></Link>
+          
         </div>
         <div style={{position: 'relative'}}>
           <input type="text" id="search" placeholder="search" />
@@ -33,7 +44,8 @@ function Header() {
           <img src={ require('../assets/images/loyalty-icon.png')} style={{width: '40px', objectFit: 'contain'}} />
           <div className="sign-in">
             <div style={{display: 'flex', alignItems: 'center', gap: '10px'}}>
-              <b>sign in</b><i className="fa fa-angle-down" style={{fontSize: '20px'}}></i></div>
+              <Link to="/login"><b>Sign In</b></Link>
+              </div>
             <span style={{fontSize: '13px'}}>Treats & Account</span>
           </div>
         </div>
@@ -42,14 +54,15 @@ function Header() {
         </div>
       </div>
       <div className="nav" style={{display: 'flex', justifyContent: 'space-around', backgroundColor: '#007db4', color: 'white', padding: '20px', margin: '10px 0'}}>
-        <div>shop by brand</div>
-        <div>shop by pet</div>
-        <div>pet services</div>
-        <div>deals</div>
-        <div>featured</div>
-        <div>pharmacy</div>
-        <div>help</div>
-        <div>my store</div>
+      {
+              categoryList ? (
+                categoryList.map((ele, id) => {
+                  return ( <Link to={"/list/"+ele.categoryId} style={{ color: 'white' }} >{ele.title} </Link> );
+                })
+                ) : (
+                  <div>Data Not Found</div>
+                )
+                }
       </div>
     </>
   )
