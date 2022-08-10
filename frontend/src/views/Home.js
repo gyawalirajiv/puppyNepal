@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Routes, Route, Link } from "react-router-dom";
+import { Routes, Route, Link, useNavigate } from "react-router-dom";
 import Category from "../components/Category";
 import axiosclient from "../util/axiosClient";
 import Header from "../components/Header"
@@ -22,8 +22,9 @@ let initialStateCard = [
 ]
 
 function Home() {
+  const navigate = useNavigate();
   const [userData, setUserData] = useState([]);
-  const [categoryList, setCategory] = useState(initialStateCategory);
+  const [categoryList, setCategory] = useState([]);
   const [cardList, setCardList] = useState(initialStateCard);
   const [loading, setLoading] = useState(false);
 
@@ -33,12 +34,12 @@ function Home() {
 
   const gettodosWithaxios = async () => {
     const response = await axiosclient.get('/category');
-    setUserData(response.data);
+    setCategory(response.data);
   };
 
   function _onCategoryClicked(item){
-    alert('Category click')
-    console.log('Category click', item )
+    navigate('/list/'+item.categoryId)
+    // console.log('Category click', item )
   };
   function _onCardClicked(item){
     alert('card click')
@@ -80,7 +81,7 @@ function Home() {
             {
               categoryList ? (
                 categoryList.map((ele, id) => {
-                  return <Category item={ele} onCategoryClicked={_onCategoryClicked.bind(this)}  key={id}/> 
+                  return <Category item={ele} onCategoryClicked={_onCategoryClicked.bind(this)}  key={id} img={initialStateCategory[id]} /> 
                 })
               )
               :
