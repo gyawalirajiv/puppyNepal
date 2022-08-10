@@ -1,6 +1,6 @@
 import {Express, Request, Response} from "express";
 import {
-  createProductHandler, deleteProductHandler,
+  createProductHandler, deleteProductHandler, getAllProductByCategoryHandler,
   getAllProductHandler,
   getProductHandler,
   updateProductHandler,
@@ -47,6 +47,7 @@ function routes(app: Express) {
 
   app.post("/api/products", createProductHandler);
   app.get("/api/products", getAllProductHandler);
+  app.get("/api/products/:categoryId/category", getAllProductByCategoryHandler);
   app.get("/api/products/:productId", getProductHandler);
   app.put("/api/products/:productId", updateProductHandler);
   app.delete("/api/products/:productId", deleteProductHandler);

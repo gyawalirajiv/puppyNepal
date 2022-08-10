@@ -45,6 +45,28 @@ export async function findProduct(
   }
 }
 
+export async function findProductByCategory(
+    query: FilterQuery<ProductDocument>,
+    options: QueryOptions = { lean: true }
+) {
+  const metricsLabels = {
+    operation: "findProduct",
+  };
+
+  const timer = databaseResponseTimeHistogram.startTimer();
+  try {
+    const category = await findCategory({categoryId: query.categoryId});
+    console.log("CAT", options)
+    const result = await ProductModel.find({category: category}, {}, options);
+    timer({ ...metricsLabels, success: "true" });
+    return result;
+  } catch (e) {
+    timer({ ...metricsLabels, success: "false" });
+
+    throw e;
+  }
+}
+
 export async function findAllProduct(
     query: FilterQuery<ProductDocument>,
     options: QueryOptions = { lean: true }
