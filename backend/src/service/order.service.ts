@@ -5,18 +5,19 @@ import OrderModel, {
 } from "../models/order.model";
 import { databaseResponseTimeHistogram } from "../utils/metrics";
 import {findCategory} from "./category.service";
+import {findProduct} from "./product.service";
 
 export async function createOrder(input: OrderInput) {
   const metricsLabels = {
     operation: "createOrder",
   };
 
-  const category = await findCategory({ categoryId: input.product._id });
+  const product = await findProduct({ categoryId: input.product._id });
   delete input.product;
 
   const timer = databaseResponseTimeHistogram.startTimer();
   try {
-    const result = await OrderModel.create({...input, category});
+    const result = await OrderModel.create({...input, product: product});
     timer({ ...metricsLabels, success: "true" });
     return result;
   } catch (e) {
