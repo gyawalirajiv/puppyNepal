@@ -33,7 +33,7 @@ function Header() {
       </div>
       <div className="search-nav" style={{display: 'flex', justifyContent: 'space-around', marginTop: '5px', alignItems: 'center'}}>
         <div>
-          <Link to="/"><img src={ require('../assets/images/petsmart-logo.png')} /></Link>
+          <Link to="/"><img src={ require('../assets/images/puppyNepal.png')} /></Link>
           
         </div>
         <div style={{position: 'relative'}}>

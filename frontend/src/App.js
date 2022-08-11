@@ -10,6 +10,8 @@ import Login from "./views/auth/Login"
 import Dashboard from "./views/auth/Dashboard";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import ProtectedRoute from "components/ProtectedRoute";
+import DashboardCategory from "./views/auth/DashboardCategory";
+import DashboardProduct from "./views/auth/DashboardProduct";
 
 function App() {
   return (
@@ -21,7 +23,9 @@ function App() {
         <Route path="/details" element={<Details />} />
         <Route path="/filterpage" element={<FilterPage/>}/>
         <Route path="/login" element={<Login/>}/>
-        <Route path="/admin/dashboard" element={<Dashboard/>}/>
+        <Route exact path="/admin/dashboard/categories" element={<DashboardCategory/>}/>
+        <Route exact path="/admin/dashboard/products" element={<DashboardProduct/>}/>
+        <Route exact path="/admin/dashboard" element={<Dashboard/>}/>
         {/* <Route element={<ProtectedRoute />}>
           <Route path='/admin/dashboard' element={<Dashboard/>}/>
         </Route> */}
