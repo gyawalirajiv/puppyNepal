@@ -38,7 +38,7 @@ function Home() {
   };
 
   function _onCategoryClicked(item){
-    navigate('/list/'+item.categoryId)
+    navigate('/list/'+item.categoryId+"/"+item.title)
     // console.log('Category click', item )
   };
   function _onCardClicked(item){
