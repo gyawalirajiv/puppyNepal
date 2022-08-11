@@ -1,59 +1,115 @@
-import * as React from "react";
+import React, { useState, useEffect } from "react";
 import { Routes, Route, Link } from "react-router-dom";
+import { useParams, useNavigate } from 'react-router';
 import Header from "components/Header";
 import Footer from "components/Footer";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 import Popover from 'react-bootstrap/Popover';
+import axiosclient from "util/axiosClient";
+import randomIntFromInterval from "util/randNumber";
+import Spinner from 'react-bootstrap/Spinner';
 
 const popover = (
-    <Popover id="popover-basic" style={{ maxWidth: "100%" }}>
-      <Popover.Header as="h3">Review</Popover.Header>
-      <Popover.Body>
-        <div> 
+  <Popover id="popover-basic" style={{ maxWidth: "100%" }}>
+    <Popover.Header as="h3">Review</Popover.Header>
+    <Popover.Body>
+      <div>
         <img src={require("../assets/images/Review.JPG")} />
-        </div>
-        
-        
-      </Popover.Body>
-    </Popover>
-  );
+      </div>
 
-  const popover2 = (
-    <Popover id="popover-basic-2" style={{ maxWidth: "100%", alignContent:'center', justifyContent:'center' }}>
-      <Popover.Body>
-        <div style={{height:"400px",width:"400px"}}> 
+
+    </Popover.Body>
+  </Popover>
+);
+
+const popover2 = (
+  <Popover id="popover-basic-2" style={{ maxWidth: "100%", alignContent: 'center', justifyContent: 'center' }}>
+    <Popover.Body>
+      <div style={{ height: "400px", width: "400px" }}>
         <img src={require("../assets/images/GlobalSourceSingleDoorFoldingWireDogCrate.jpeg")} />
-        </div>
-        
-        
-      </Popover.Body>
-    </Popover>
-  );
+      </div>
 
-  const Example = () => (
-    <OverlayTrigger trigger="hover" placement="right" overlay={popover}>
-      <Button variant="Primary">⭐⭐⭐⭐★</Button>
-    </OverlayTrigger>
-  );
 
-  const PictureDesc = () => {
-    return (
+    </Popover.Body>
+  </Popover>
+);
 
-        <OverlayTrigger trigger="hover" placement="right" overlay={popover2}>
+const Example = () => (
+  <OverlayTrigger trigger={["hover", "focus"]} placement="right" overlay={popover}>
+    <Button variant="Primary">⭐⭐⭐⭐★</Button>
+  </OverlayTrigger>
+);
+
+const PictureDesc = () => {
+  return (
+
+    <OverlayTrigger trigger={["hover", "focus"]} placement="right" overlay={popover2}>
       <Button variant="Success">
         <img
-              src={require("../assets/images/GlobalSourceSingleDoorFoldingWireDogCrate.jpeg")}
-              style={{ width: "300px", height: "300px" }}
-              />
-            </Button>
+          src={require("../assets/images/GlobalSourceSingleDoorFoldingWireDogCrate.jpeg")}
+          style={{ width: "300px", height: "300px" }}
+        />
+      </Button>
     </OverlayTrigger>
-              )
-  };
+  )
+};
 
 
 function Details() {
+  const [details, setDetails] = useState({});
+  const [values, setValues] = useState({ fullName: "", phone: "", location: "" });
+  const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
+  const [success, setSuccess] = useState(false);
+  const { productId } = useParams();
+
+  useEffect(() => {
+    getProductDetailsWithaxios();
+  }, []);
+
+  const getProductDetailsWithaxios = async () => {
+    const response = await axiosclient.get('/products/' + productId);
+    setDetails(response.data);
+  };
+
+  const saveOrderAxios = async () => {
+    const orderData= {
+      "product": {
+        "_id": productId
+      },
+      "fullName": values.fullName,
+      "location": values.location,
+      "phoneNumber": values.phone
+    };
+    
+    const response = await axiosclient.post('/order', orderData).then((res) => {
+      setTimeout(() => {
+        setLoading(false)
+      },4000)
+      console.log('res', res);
+      setTimeout(() => {
+        setSuccess(true)
+      },4000)
+    })
+    return response;
+  };
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    setLoading(true)
+    saveOrderAxios()
+    setTimeout(() => {
+      setSuccess(false)
+    },10000)
+
+  };
+
+  const handleChange = (event) => {
+    setValues((values) => ({ ...values, [event.target.name]: event.target.value, }));
+  }
+
   return (
     <>
       <Header />
@@ -101,8 +157,8 @@ function Details() {
         >
           <div
             style={{ width: "252.8px", height: "252.8px", margin: "0 auto" }}
-            >
-          <PictureDesc />
+          >
+            <PictureDesc Imgae={details.image} />
           </div>
 
           <div>
@@ -115,23 +171,23 @@ function Details() {
                 marginInlineEnd: "0px",
                 fontFamily: "Proxima-Nova-A-Bold",
                 fontSize: "28px",
-                fontStyle:"normal",
+                fontStyle: "normal",
                 fontvarianteastasian: 'normal ',
-            fontvariantligatures: 'normal', 
-            fontvariantnumeric:  'normal ',
+                fontvariantligatures: 'normal',
+                fontvariantnumeric: 'normal ',
                 lineHeight: "3rem",
                 fontWeight: "900"
-                
+
               }}
             >
-              Global Source Single Door Folding Wire Dog Crate
+              {details.title}
             </h2>
             <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr" }}>
               <div>
                 <p>
                   {" "}
                   Item #5321448{" "}
-                  <label style={{ fontWeight: "bold" }}> <Example/> </label>{" "}
+                  <label style={{ fontWeight: "bold" }}> <Example /> </label>{" "}
                   {"  "}
                   <label style={{ color: "green", fontWeight: "bold" }}>
                     {" "}
@@ -142,11 +198,11 @@ function Details() {
                 <span id="price" style={{ color: "#e52823" }}>
                   {" "}
                   <label style={{ fontWeight: "bold", fontSize: "20px" }}>
-                    $79.99{" "}
+                    ${details.price}{" "}
                   </label>
                 </span>{" "}
                 <span style={{ textDecoration: "line-through", color: "grey" }}>
-                  Price$109.99
+                  Price${randomIntFromInterval(details.price)}
                 </span>
                 <br></br>
                 <p style={{ fontWeight: "bold", fontSize: "15px" }}>
@@ -224,6 +280,7 @@ function Details() {
               <div id="formCollection">
                 <form
                   action="/"
+                  onSubmit={handleSubmit}
                   style={{
                     display: "flex",
                     gap: "10px",
@@ -239,36 +296,38 @@ function Details() {
                       color: "white",
                       fontSize: "1.5em",
                       fontWeight: "600",
+                      textAlign: 'center',
+                      marginBottom: '10px'
                     }}
                   >
-                    Payment:
+                    Payment
                   </label>
                   <div style={{ color: "white" }}>Name</div>{" "}
                   <Form.Control
                     type="text"
                     placeholder="Enter Your Name"
-                    name="Name"
-                  />
-                  <div style={{ color: "white" }}>Email</div>{" "}
-                  <Form.Control
-                    type="text"
-                    placeholder="Enter Your Email"
-                    name="Email"
+                    name="fullName"
+                    required
+                    onChange={handleChange}
                   />
                   <div style={{ color: "white" }}>Phone No.</div>{" "}
                   <Form.Control
-                    type="text"
+                    type="number"
                     placeholder="Enter Your Phone Number"
-                    name="PhoneNo"
+                    name="phone"
+                    required
+                    onChange={handleChange}
                   />
                   <div style={{ color: "white" }}>Location</div>{" "}
                   <Form.Control
                     type="text"
-                    placeholder="Enter Your Name"
-                    name="Name"
+                    placeholder="Enter Your Full Address"
+                    name="location"
+                    required
+                    onChange={handleChange}
                   />
                   <div style={{ display: "flex", gap: "10px" }}>
-                    <label style={{ color: "white" }}>Quantity</label>
+                    <label style={{ color: "white" }}>Quantity:</label>
                     <select name="qty">
                       <option value={1}>1</option>
                       <option value={2}>2</option>
@@ -276,29 +335,44 @@ function Details() {
                       <option value={4}>4</option>
                     </select>
                   </div>
-                  <a href="#">
-                    <div
-                      style={{
-                        backgroundColor: "#4CAF50",
-                        color: "white",
-                        padding: "15px 32px",
-                        textAlign: "center",
-                        textDecoration: "none",
-                        display: "flex",
-                        fontSize: "16px",
-                        alignItems: "center",
-                        gap: "10px",
-                        justifyContent: "center",
-                        borderRadius: "25px",
-                      }}
-                    >
-                      <img
-                        style={{ height: "30px", width: "30px" }}
-                        src={require("../assets/images/credit-card.png")}
-                      ></img>
-                      <label>BUY NOW</label>
-                    </div>
-                  </a>
+
+                  {/* <label>BUY NOW</label> */}
+                  <Button type="submit" style={{
+                    backgroundColor: "#4CAF50",
+                    color: "white",
+                    padding: "5px 15px",
+                    textAlign: "center",
+                    textDecoration: "none",
+                    display: "flex",
+                    fontSize: "16px",
+                    alignItems: "center",
+                    gap: "10px",
+                    justifyContent: "center",
+                    borderRadius: "25px",
+                  }} disabled={loading}>
+                    <img
+                      style={{ height: "30px", width: "30px" }}
+                      src={require("../assets/images/credit-card.png")}
+                    />
+                    {
+                      loading ? (
+                        <Spinner
+                          as="span"
+                          animation="border"
+                          size="sm"
+                          role="status"
+                          aria-hidden="true"
+                        />
+                      ) :
+                        <></>
+                    }
+                    BUY NOW</Button>
+                  {
+                    success ? (
+                      <h5 style={{ textAlign: 'center', color: 'white', marginTop: '10px' }}>Order Saved Successfully</h5>
+                    ) : <></>
+                  }
+                    
                 </form>
               </div>
             </div>
