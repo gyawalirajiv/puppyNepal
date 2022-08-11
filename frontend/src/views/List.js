@@ -34,7 +34,7 @@ function List() {
       <div style={styles.gridContainer} >
         {
           productData ? (
-            productData.map((ele, idx) => {
+            [...productData, ...productData].map((ele, idx) => {
               return (
                 <div style={styles.gridDivContainer} key={idx}>
                   <div style={{ border: '0px solid' }}>

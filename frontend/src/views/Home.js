@@ -15,10 +15,10 @@ let initialStateCategory = [
   { title: 'Small Pet', imgURL: 'WEB-1178113-Jan22_DEAL6_SmPet.jpg' }
 ]
 let initialStateCard = [
-  { title: 'Dog toys under $10', imgURL: 'WEB-1407965-July22_HP-CAT_DogToys_DT.jpg' },
-  { title: 'Dog toys under $5', imgURL: 'WEB-1407965-July22_HP-CAT_DogTreats_DT.jpg' },
-  { title: 'Wet cat food under $1.50', imgURL: 'WEB-1407965-July22_HP-CAT_CatFood_DT.jpg' },
-  { title: 'Aquatic decor under $10', imgURL: 'WEB-1407965-July22_HP-CAT_AquaticDecor_DT.jpg' },
+  { title: 'Dog', categoryId: "category_7n8yg36cis", imgURL: 'WEB-1407965-July22_HP-CAT_DogToys_DT.jpg' },
+  { title: 'Cat', categoryId: "category_kqmkrlda90", imgURL: 'WEB-1407965-July22_HP-CAT_DogTreats_DT.jpg' },
+  { title: 'Dog', categoryId: "category_7n8yg36cis",imgURL: 'WEB-1407965-July22_HP-CAT_CatFood_DT.jpg' },
+  { title: 'cat',categoryId: "category_kqmkrlda90", imgURL: 'WEB-1407965-July22_HP-CAT_AquaticDecor_DT.jpg' },
 ]
 
 function Home() {
@@ -42,8 +42,7 @@ function Home() {
     // console.log('Category click', item )
   };
   function _onCardClicked(item){
-    alert('card click')
-    console.log('Card click', item )
+    navigate('/list/'+item.categoryId+"/"+item.title)
   };
 
   return (
@@ -52,10 +51,10 @@ function Home() {
       <div className="offers" style={{textAlign: 'center', color: '#c8102e',fontSize: '1.1em', fontWeight: '600'}}>
         IN-STORE & CURBSIDE PICKUP: shop online & pick up in store for free! Shop now 
       </div>
-      <div className="container" style={{width: '80%', margin: '0 auto', position: 'relative'}}>
-        <div className="promo-front" style={{width: '95%', margin: '0 auto'}}>
+      <div className="container" style={{width: '80%', margin: '0 auto', position: 'relative', cursor:'pointer' }}>
+        <div className="promo-front" style={{width: '95%', margin: '0 auto'}} onClick={() => _onCardClicked(initialStateCard[0])}>
           <img src={ require('../assets/images/WEB-1407965-July22_HP-SLDR_SummerDeals_DT.png') } style={{width: '100%', marginTop: '10px'}} alt="" />
-          <div style={{display: 'flex', flexDirection: 'column', alignTtems: 'center',position: 'absolute', top: '10%', left: '35%', fontSize: '0.8em', color: 'white'}}>
+          <div style={{display: 'flex', flexDirection: 'column', alignTtems: 'center',position: 'absolute', top: '10%', left: '35%', fontSize: '0.8em', color: 'white'}} >
             <h2>Summer fun deals!</h2>
             <span style={{marginTop: '-10px'}}>Save on toys, toppers, aquariums, treats & more</span>
             <button style={{padding: '10px', marginTop: '10px', borderRadius: '5px', border: 'none', fontWeight: '700'}}>Shop now</button>
