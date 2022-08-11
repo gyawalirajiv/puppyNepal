@@ -1,16 +1,25 @@
-import React, {Component} from "react";
-import {Link, NavLink} from "react-router-dom";
+import React, {useState, useEffect, Component} from "react";
+import {Routes, Route, Link, NavLink} from "react-router-dom";
+import Header from "../../components/Header"
+import Home from "../Home";
+import About from "../About";
+import List from "../List";
+import Details from "../Details";
+import FilterPage from "../FilterPage";
+import Login from "./Login";
 import Table from "react-bootstrap/Table";
 import axiosclient from "../../util/axiosClient";
 
 
-class Dashboard extends Component{
+
+
+class DashboardCategory extends Component{
     state = {
         data: []
     }
 
     componentDidMount() {
-        axiosclient.get('/order').then((res) => {
+        axiosclient.get('/category').then((res) => {
             this.setState({data: res.data});
         });
     }
@@ -26,14 +35,14 @@ class Dashboard extends Component{
                         </div>
                         <hr/>
                         <div style={{display: "flex", flexDirection: "column", gap: "20px", paddingLeft: "20px"}}>
-                            <span><NavLink exact to={`/admin/dashboard`}> ORDERS</NavLink></span>
-                            <Link to="/admin/dashboard/categories"><span>CATEGORIES</span></Link>
-                            <span><Link to="/admin/dashboard/categories">PRODUCTS</Link></span>
+                            <span><Link to="/admin/dashboard"> ORDERS</Link></span>
+                            <span>CATEGORIES</span>
+                            <Link to="/admin/dashboard/products"><span>PRODUCTS</span></Link>
                         </div>
                     </div>
                     <div style={{backgroundColor: "#f4f3ef", padding: "20px"}}>
                         <div style={{display: "flex", justifyContent: "space-between", alignItems: "center"}}>
-                            <p style={{fontSize: "2em"}}>Dashboard | Orders</p>
+                            <p style={{fontSize: "2em"}}>Dashboard | Categories</p>
                             <Link to="/"><p style={{marginRight: "50px", fontWeight: "700", backgroundColor: "#9a9a9a", color: "#f4f3ef", padding: "10px 20px", borderRadius: "10px"}}>Logout</p></Link>
                         </div>
                         <hr/>
@@ -42,21 +51,15 @@ class Dashboard extends Component{
                                 <thead>
                                 <tr>
                                     <th>#</th>
-                                    <th>Full Name</th>
-                                    <th>Phone Number</th>
-                                    <th>Date</th>
-                                    <th>Product Object #</th>
+                                    <th>Title</th>
                                 </tr>
                                 </thead>
                                 <tbody>
                                 {
                                     this.state.data.map((item) => {
                                         return (<tr>
-                                            <td>{item.orderId}</td>
-                                            <td>{item.fullName}</td>
-                                            <td>{item.phoneNumber}</td>
-                                            <td>{item.createdAt}</td>
-                                            <td>{item.product}</td>
+                                            <td>{item.categoryId}</td>
+                                            <td>{item.title}</td>
                                         </tr>);
                                     })
                                 }
@@ -72,4 +75,4 @@ class Dashboard extends Component{
 
 
 
-export default Dashboard;
+export default DashboardCategory;
