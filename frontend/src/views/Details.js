@@ -24,17 +24,19 @@ const popover = (
   </Popover>
 );
 
-const popover2 = (
-  <Popover id="popover-basic-2" style={{ maxWidth: "100%", alignContent: 'center', justifyContent: 'center' }}>
-    <Popover.Body>
-      <div style={{ height: "400px", width: "400px" }}>
-        <img src={require("../assets/images/GlobalSourceSingleDoorFoldingWireDogCrate.jpeg")} />
-      </div>
+// const PopoverImage = ({ Image }) => {
+//   return (
+//     <Popover id="popover-basic-2" style={{ maxWidth: "100%", alignContent: 'center', justifyContent: 'center' }}>
+//       <Popover.Body>
+//         <div style={{ height: "400px", width: "400px" }}>
+//           <img src={Image} />
+//         </div>
 
 
-    </Popover.Body>
-  </Popover>
-);
+//       </Popover.Body>
+//     </Popover>
+//   )
+// };
 
 const Example = () => (
   <OverlayTrigger trigger={["hover", "focus"]} placement="right" overlay={popover}>
@@ -42,13 +44,22 @@ const Example = () => (
   </OverlayTrigger>
 );
 
-const PictureDesc = () => {
+const PictureDesc = ({ Image }) => {
   return (
+    <OverlayTrigger trigger={["hover", "focus"]} placement="right" overlay={
+      <Popover id="popover-basic-2" style={{ maxWidth: "100%", alignContent: 'center', justifyContent: 'center' }}>
+        <Popover.Body>
+          <div >
+            <img src={Image} style={{ height: "800px", width: "800px", objectFit: "cover" }}/>
+          </div>
 
-    <OverlayTrigger trigger={["hover", "focus"]} placement="right" overlay={popover2}>
+
+        </Popover.Body>
+      </Popover>
+    }>
       <Button variant="Success">
         <img
-          src={require("../assets/images/GlobalSourceSingleDoorFoldingWireDogCrate.jpeg")}
+          src={Image}
           style={{ width: "300px", height: "300px" }}
         />
       </Button>
@@ -75,7 +86,7 @@ function Details() {
   };
 
   const saveOrderAxios = async () => {
-    const orderData= {
+    const orderData = {
       "product": {
         "_id": productId
       },
@@ -83,15 +94,15 @@ function Details() {
       "location": values.location,
       "phoneNumber": values.phone
     };
-    
+
     const response = await axiosclient.post('/order', orderData).then((res) => {
       setTimeout(() => {
         setLoading(false)
-      },4000)
+      }, 4000)
       console.log('res', res);
       setTimeout(() => {
         setSuccess(true)
-      },4000)
+      }, 4000)
     })
     return response;
   };
@@ -102,7 +113,7 @@ function Details() {
     saveOrderAxios()
     setTimeout(() => {
       setSuccess(false)
-    },10000)
+    }, 10000)
 
   };
 
@@ -158,7 +169,7 @@ function Details() {
           <div
             style={{ width: "252.8px", height: "252.8px", margin: "0 auto" }}
           >
-            <PictureDesc Imgae={details.image} />
+            <PictureDesc Image={details.image} />
           </div>
 
           <div>
@@ -372,7 +383,7 @@ function Details() {
                       <h5 style={{ textAlign: 'center', color: 'white', marginTop: '10px' }}>Order Saved Successfully</h5>
                     ) : <></>
                   }
-                    
+
                 </form>
               </div>
             </div>
