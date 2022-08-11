@@ -57,7 +57,7 @@ function Header() {
       {
               categoryList ? (
                 categoryList.map((ele, id) => {
-                  return ( <Link to={"/list/"+ele.categoryId} style={{ color: 'white' }} >{ele.title} </Link> );
+                  return ( <Link to={"/list/"+ele.categoryId+"/"+ele.title} style={{ color: 'white' }} key={id}>{ele.title} </Link> );
                 })
                 ) : (
                   <div>Data Not Found</div>
